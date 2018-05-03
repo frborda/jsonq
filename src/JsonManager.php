@@ -7,6 +7,7 @@ class JsonManager
 	protected $_node;
 	protected $_map;
 	protected $_path = '';
+	protected $_jsonString = '';
 	protected $_conds = [
 		'='	=> 'equal',
 		'!='	=> 'notEqual',
@@ -51,6 +52,16 @@ class JsonManager
 		}
 	}
 
+	public function importJsonString($jsonString)
+	{
+		if(!is_null($jsonString)) {
+			$this->_jsonString = $jsonString;
+            $this->_map = $this->getDataFromJsonString($this->_jsonString);
+            //var_dump($this->_map);
+            return true;
+		}
+	}
+
 
 	public function setStoragePath($path)
 	{
@@ -87,6 +98,14 @@ class JsonManager
 
 			return $this->isJson($data, true);
 		}
+	}
+
+	protected function getDataFromJsonString($jsonString, $type = 'application/json')
+	{
+		if(!$jsonString) {
+			return false;
+		}
+		return $this->isJson($jsonString, true);
 	}
 
 
